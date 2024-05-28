@@ -1,66 +1,168 @@
 package com.example.shoppinglistapp.fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuHost;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.shoppinglistapp.R;
+import com.example.shoppinglistapp.databinding.FragmentEditItemBinding;
+import com.example.shoppinglistapp.model.Item;
+import com.example.shoppinglistapp.viewmodel.ItemViewModel;
+import com.example.shoppinglistapp.viewmodel.ItemViewModelFactory;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditItemFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class EditItemFragment extends Fragment {
+// Class for UI to update and delete item from the database
+public class EditItemFragment extends Fragment implements MenuProvider {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // Variables
+    private ItemViewModel viewModel;
+    private Item currentItem;
+    // Variable Arguments for EditItem
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public EditItemFragment() {
-        // Required empty public constructor
+    // Set up binding
+    private FragmentEditItemBinding binding;
+    private FragmentEditItemBinding getBinding() {
+        if (binding == null) { // Not null check
+            throw new IllegalStateException("Attempting to access binding while it is null");
+        }
+        return binding;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditItemFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditItemFragment newInstance(String param1, String param2) {
-        EditItemFragment fragment = new EditItemFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    // Fragment implementation
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Retrieve the item from the arguments
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            currentItem = getArguments().getParcelable("item");
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_item, container, false);
+        binding = FragmentEditItemBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Initialize MenuHost
+        MenuHost menuHost = requireActivity();
+        menuHost.addMenuProvider(this, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+
+        // Set up the ViewModel
+        ItemViewModelFactory factory = new ItemViewModelFactory(requireActivity().getApplication());
+        viewModel = new ViewModelProvider(this, factory).get(ItemViewModel.class);
+
+        // NotNull check and set current Item data into View components
+        if (currentItem != null) {
+            binding.editItemTitle.setText(currentItem.getItemTitle());
+            binding.editItemDesc.setText(currentItem.getItemDescription());
+        }
+
+        // Floating action button to add new item
+        binding.saveEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Save item details and return to home page
+                updateItemDetails(v);
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null; // cleans up the binding reference to avoid memory leaks
+    }
+
+    // MenuProvider implementation
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        // Remove exiting menu
+        menu.clear();
+        // Inflate new menu
+        menuInflater.inflate(R.menu.menu_edit_item, menu);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        int itemId = menuItem.getItemId();
+        if (itemId == R.id.actionDelete) {
+            deleteItem(getView());
+            return true;
+        } else if (itemId == R.id.actionHome) {
+            NavController navController = Navigation.findNavController(requireView());
+            navController.navigate(R.id.action_editItemFragment_to_homeFragment);
+            return true;
+        }
+        return false;
+    }
+
+    // Custom Method to save Item details
+    private void updateItemDetails(View view){
+
+        // Bind item data (title, description, etc.)
+        String itemTitle = binding.editItemTitle.getText().toString().trim();
+        String itemDesc = binding.editItemDesc.getText().toString().trim();
+
+        // Validate user's input is complete
+        if(!itemTitle.isEmpty() && !itemDesc.isEmpty()){
+
+            // set item new details
+            currentItem.setItemTitle(itemTitle);
+            currentItem.setItemDescription(itemDesc);
+
+            // Update item data in the Database via the ViewModel
+            viewModel.updateItem(currentItem);
+
+            // Notify the user about the insert
+            Toast.makeText(getContext(), "Item updated", Toast.LENGTH_SHORT).show();
+
+            // Return to Home Fragment
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.action_editItemFragment_to_homeFragment);
+
+        } else {
+            //
+            Toast.makeText(getContext(), "Please complete all fields.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Custom method to delete item
+    private void deleteItem(View view) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Delete Item")
+                .setMessage("Do you want to proceed?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    viewModel.deleteItem(currentItem);
+                    Toast.makeText(getContext(), "Item deleted.", Toast.LENGTH_SHORT).show();
+                    NavController navController = Navigation.findNavController(view);
+                    navController.navigate(R.id.action_editItemFragment_to_homeFragment);
+                })
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 }
