@@ -35,6 +35,17 @@ public class Item implements Parcelable{
         this.itemTitle = itemTitle;
     }
 
+    // Constructor
+    public Item(String itemTitle, String itemDescription) {
+        this.itemTitle = itemTitle;
+        this.itemDescription = itemDescription;
+    }
+
+    // Public static method to create new Item instances
+    public static Item createItem(String title, String description) {
+        return new Item(title, description);
+    }
+
     // Parcelable implementation for efficient data transfer among components.
     @Override
     public int describeContents() {
