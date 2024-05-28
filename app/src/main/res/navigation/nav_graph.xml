@@ -13,7 +13,12 @@
             app:destination="@id/addItemFragment" />
         <action
             android:id="@+id/action_homeFragment_to_editItemFragment"
-            app:destination="@id/editItemFragment" />
+            app:destination="@id/editItemFragment" >
+            <argument
+                android:name="@string/itemTitle"
+                app:argType="com.example.shoppinglistapp.model.Item"
+                app:nullable="true"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/addItemFragment"
@@ -31,4 +36,5 @@
             android:id="@+id/action_editItemFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+
 </navigation>
