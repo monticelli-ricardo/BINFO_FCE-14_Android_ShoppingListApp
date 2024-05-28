@@ -26,25 +26,30 @@
             android:id="@+id/editItemTitle"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:hint="@string/itemHint"
-            android:padding="12dp"
-            android:textSize="20sp"
             android:layout_below="@id/editItemHeading"
-            android:background="@drawable/item_border"
             android:layout_marginTop="16dp"
-            android:maxLines="1" />
+            android:autofillHints="@string/edit_item_name"
+            android:background="@drawable/item_border"
+            android:hint="@string/edit_item_name"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:textColorHint="#EF6C00"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/editItemDesc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Enter the description"
+            android:hint="@string/edit_item_description"
+            android:autofillHints="@string/edit_item_description"
             android:gravity="top"
             android:padding="12dp"
             android:textSize="18sp"
             android:background="@drawable/item_border"
             android:layout_below="@id/editItemTitle"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:inputType="textMultiLine"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/editItemButton"
@@ -58,7 +63,7 @@
             android:src="@drawable/baseline_done_24"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:contentDescription="editItemButton" />
+            android:contentDescription="@string/done_button"/>
 
     </RelativeLayout>
 </layout>
