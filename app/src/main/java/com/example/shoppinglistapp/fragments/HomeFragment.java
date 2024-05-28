@@ -70,7 +70,6 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
         menuHost.addMenuProvider(this, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
 
         // Set up the ViewModel
-        // itemViewModel = (activity as MainActivity).itemViewModel
         setupRecyclerViewModel();
 
         // Floating action button to add new item
