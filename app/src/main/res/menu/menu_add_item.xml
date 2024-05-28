@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/saveMenu"
-        android:title="@string/add_menu"
-        android:icon="@drawable/baseline_keyboard_return_24"
+        android:id="@+id/actionHome"
+        android:title="@string/home_button"
+        android:icon="@drawable/baseline_home_24"
         app:showAsAction="always" />
 </menu>

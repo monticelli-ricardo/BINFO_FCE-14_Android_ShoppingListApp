@@ -18,18 +18,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.shoppinglistapp.R;
-import com.example.shoppinglistapp.adapter.ItemAdapter;
 import com.example.shoppinglistapp.databinding.FragmentAddItemBinding;
 import com.example.shoppinglistapp.model.Item;
-import com.example.shoppinglistapp.repository.ItemRepository;
 import com.example.shoppinglistapp.viewmodel.ItemViewModel;
 import com.example.shoppinglistapp.viewmodel.ItemViewModelFactory;
 
-// Class to handle logic behind saving new Item details into the database
+// Class to for UI to save new Item details into the database
 public class AddItemFragment extends Fragment implements MenuProvider {
 
 
@@ -99,7 +96,7 @@ public class AddItemFragment extends Fragment implements MenuProvider {
 
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) {
+        if (menuItem.getItemId() == R.id.actionHome) {
             // Handle navigation back to the home fragment
             NavController navController = Navigation.findNavController(requireView());
             navController.navigateUp();
