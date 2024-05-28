@@ -19,6 +19,7 @@ public class ItemRepository {
     // Item Repository Variables
     private final ItemDao itemDao;
     private final LiveData<List<Item>> allItems;
+    private static ItemRepository instance;
 
     // Variable to run database operations on a background thread,
     // ensuring the main thread is not blocked and the UI remains responsive
@@ -30,6 +31,14 @@ public class ItemRepository {
         itemDao = itemDb.itemDao();
         allItems = itemDao.getAllItems();
         executorService = Executors.newFixedThreadPool(2);
+    }
+
+    // Singleton instance getter
+    public static synchronized ItemRepository getInstance(Application application) {
+        if (instance == null) {
+            instance = new ItemRepository(application);
+        }
+        return instance;
     }
 
     // "Implement" ItemDao methods (CRUD queries and others)

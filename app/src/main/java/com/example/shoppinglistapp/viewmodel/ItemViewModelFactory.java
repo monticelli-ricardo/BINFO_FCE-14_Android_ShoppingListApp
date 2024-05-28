@@ -16,9 +16,9 @@ public class ItemViewModelFactory implements ViewModelProvider.Factory {
     private final Application application;
 
     // ItemViewModelFactory Constructor
-    public ItemViewModelFactory(Application app, ItemRepository repository) {
+    public ItemViewModelFactory(Application app) {
         this.application = app;
-        this.repository = repository;
+        this.repository = ItemRepository.getInstance(app);
 
     }
     // Custom ViewModelProvider.Factory implementation in Android,
