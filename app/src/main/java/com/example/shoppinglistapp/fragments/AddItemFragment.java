@@ -2,65 +2,135 @@ package com.example.shoppinglistapp.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuHost;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.shoppinglistapp.R;
+import com.example.shoppinglistapp.adapter.ItemAdapter;
+import com.example.shoppinglistapp.databinding.FragmentAddItemBinding;
+import com.example.shoppinglistapp.model.Item;
+import com.example.shoppinglistapp.repository.ItemRepository;
+import com.example.shoppinglistapp.viewmodel.ItemViewModel;
+import com.example.shoppinglistapp.viewmodel.ItemViewModelFactory;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddItemFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class AddItemFragment extends Fragment {
+// Class to handle logic behind saving new Item details into the database
+public class AddItemFragment extends Fragment implements MenuProvider {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AddItemFragment() {
-        // Required empty public constructor
+    // Variables
+    private View addItemView;
+    private ItemViewModel viewModel;
+    // The binding variable
+    private FragmentAddItemBinding binding;
+    // Getter for the binding instance with non-null assertion
+    private FragmentAddItemBinding getBinding() {
+        if (binding == null) { // Not null check
+            throw new IllegalStateException("Attempting to access binding while it is null");
+        }
+        return binding;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddItemFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddItemFragment newInstance(String param1, String param2) {
-        AddItemFragment fragment = new AddItemFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    // Fragment implementation
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_item, container, false);
+        binding = FragmentAddItemBinding.inflate(inflater, container, false);
+        return binding.getRoot(); // Return the root view of the binding
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Initialize MenuHost
+        MenuHost menuHost = requireActivity();
+        menuHost.addMenuProvider(this, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+
+        // Set up the ViewModel
+        ItemViewModelFactory factory = new ItemViewModelFactory(requireActivity().getApplication());
+        viewModel = new ViewModelProvider(this, factory).get(ItemViewModel.class);
+
+        // Floating action button to add new item
+        binding.editItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Save item details and return to home page
+                saveItemDetails(v);
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null; // cleans up the binding reference to avoid memory leaks
+    }
+
+    // Menu Provider Implementation
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        // Remove exiting menu
+        menu.clear();
+        // Inflate new menu
+        menuInflater.inflate(R.menu.menu_add_item, menu);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            // Handle navigation back to the home fragment
+            NavController navController = Navigation.findNavController(requireView());
+            navController.navigateUp();
+            return true;
+        }
+        return false;
+    }
+
+    // Custom Method to save Item details
+    private void saveItemDetails(View view){
+        // Bind item data (title, description, etc.)
+        String itemTitle = binding.addItemTitle.getText().toString().trim();
+        String itemDesc = binding.addItemDesc.getText().toString().trim();
+
+        // Validate user's input is complete
+        if(!itemTitle.isEmpty() && !itemDesc.isEmpty()){
+            // Create a new item
+            Item newItem = Item.createItem(itemTitle, itemDesc);
+            // Add new item into the Database via the ViewModel
+            viewModel.insertItem(newItem);
+
+            // Notify the user about the insert
+            Toast.makeText(addItemView.getContext(), "Item saved", Toast.LENGTH_SHORT).show();
+            // Return to Home Fragment
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.action_addItemFragment_to_homeFragment);
+        } else {
+            //
+            Toast.makeText(addItemView.getContext(), "Please complete all fields.", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 }
