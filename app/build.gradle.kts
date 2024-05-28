@@ -4,6 +4,7 @@ plugins {
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs")
+    kotlin("kapt")
 }
 
 android {
@@ -30,9 +31,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    buildFeatures{
-        dataBinding = true
+    buildFeatures {
+        viewBinding = true
     }
+
 }
 
 dependencies {
