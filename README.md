@@ -10,45 +10,57 @@ The application follows the design principles of the MVMM (Model-View-ModelView)
    - MVVM architecture separates the concerns of the application into distinct components: Model, View, and ViewModel. This makes the codebase more organized and easier to understand, maintain, and test.
    - ROOM provides a clear separation between database operations (Model) and UI-related logic (ViewModel), further enhancing the modularity of the codebase.
 
-2. **Testability**:
-   - With MVVM, business logic is encapsulated within the ViewModel, which makes it easier to unit test without relying on Android framework components like Activities or Fragments.
-   - ROOM's DAOs can be tested independently of the UI, allowing for comprehensive testing of database operations.
-
 3. **Lifecycle Awareness**:
    - ViewModels are lifecycle-aware components, meaning they are automatically destroyed when their associated View (Activity or Fragment) is destroyed. This prevents memory leaks and ensures that resources are properly managed.
    - LiveData objects exposed by ViewModels automatically update UI components (Views) when the underlying data changes, ensuring that the UI remains up-to-date with the latest data.
 
 4. **UI Responsiveness**:
-   - LiveData objects provided by ViewModels allow for efficient data updates in the UI. Only the parts of the UI that are affected by data changes are updated, resulting in a more responsive and efficient user experience.
+   - LiveData objects provided by ViewModels allow for efficient data updates in the UI. Only the UI parts affected by data changes are updated, resulting in a more responsive and efficient user experience.
 
 5. **Database Abstraction**:
-   - ROOM provides an abstraction layer over SQLite, making it easier to work with databases in Android applications. It simplifies database operations and reduces boilerplate code, leading to increased developer productivity.
+   - ROOM provides an abstraction layer over SQLite, making it easier to work with databases in Android applications. It simplifies database operations and reduces boilerplate code.
 
-### Roles of the App Components:
+### Roles of the Applications Components:
 
-1. **Model**:
-   - Entities: Define the data structure of the application (e.g., Item entity for the shopping list application).
-   - DAOs (Data Access Objects): Define database operations (e.g., insert, update, delete) for interacting with the database.
+1. **Model**: `Item.java`
+   - Entities: Define the data structure of the application.
 
-2. **ViewModel**:
+2. **ViewModel**: `ItemViewModel.java`
    - Contains the business logic of the application.
    - Interacts with the Model (ROOM database) to retrieve and update data.
-   - Exposes LiveData objects to the View (UI components) for observing data changes.
+   - `ItemViewModelFactory.java` is responsible for creating instances of `ItemViewModel` with custom constructor parameters.
+   - Exposes LiveData objects to the View (UI components) for observing data changes ( `ItemAdapter.java`).
    - Handles configuration changes (e.g., screen rotations) without losing data.
 
 3. **View**:
    - Activities and Fragments: Present the user interface to the user and handle user interactions.
+      - `MainActivity.java`
+      - `SpActivity.java`
+      - `AddItemFragment.java`
+      - `HomeFrament.java`
    - Layout XML files: Define the layout and appearance of UI components.
+      - `activity_main.xml`
+      - `ativity_sp.xml`
+      - `fragment_add_item.xml`
+      - `fragment_edit_item.xml`
+      - `fragment_home.xml`
+      - `item_layout.xml`
+      - `home_menu.xml`
+      - `menu_add_item.xml`
+      - `menu_edit_item.xml`
+   - Drawable, colors, and string resources to complement the layout XML files.
 
-4. **Repository** (Optional, but commonly used):
-   - Acts as a single source of truth for data operations.
+4. **Repository**: `ItemRepository.java`
    - Abstracts the data sources (e.g., local database, network) from the ViewModel, providing a clean API for data access.
    - Coordinates data operations between the ViewModel and the Model (ROOM database).
 
-5. **Database**:
+5. **Database**: `ItemDatabase.java`
    - Holds the application data using ROOM's database implementation.
    - Contains entities and DAOs defined in the Model layer.
-   - Handles database operations such as data retrieval, insertion, updating, and deletion.
+   - Handles database operations such as data retrieval, insertion, updating, and deletion. In addition, to custom database operations ((listAllItems, searchItem, etc.).
+  
+6. **Data Access Objects**: `ItemDao.java`
+   Define database operations (e.g., insert, update, delete) and other custom operations (listAllItems, searchItem) for interacting with the database.
 
 
 ### Functionality
