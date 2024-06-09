@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">My Shopping List</string>
+    <!--Splash Screen -->
+    <string name="sp_textView">My Shopping List</string>
+    <!-- Item -->
+    <string name="itemTitle">Item</string>
+    <string name="itemSDesc">Short Description</string>
+    <string name="itemLDesc">Enter item description.</string>
+    <string name="itemQuantity">#</string>
+    <string name="itemBought">Item bought.</string>
+    <string name="itemHint">Enter item name.</string>
+    <!-- Home -->
+    <string name="home_menu">Search</string>
+    <string name="home_menu_heading">My Shopping List</string>
+    <!-- Add Item Menu -->
+    <string name="add_menu">Add</string>
+    <string name="add_menu_heading">Add item.</string>
+    <string name="add_item_name">Add item name.</string>
+    <string name="add_item_description">Add item description.</string>
+    <string name="add_item_quantity">Enter item quantity.</string>
+    <!-- Edit Item Menu -->
+    <string name="edit_menu">Edit</string>
+    <string name="edit_menu_heading">Edit item.</string>
+    <string name="edit_item_name">Edit item name.</string>
+    <string name="edit_item_description">Edit item description.</string>
+    <string name="edit_item_quantity">Edit item quantity.</string>
+    <!-- Buttons -->
+    <string name="add_button">Add Button</string>
+    <string name="delete_button">Delete Button</string>
+    <string name="search_button">Search Button</string>
+    <string name="edit_button">Edit Button</string>
+    <string name="home_button">Home Button</string>
+    <string name="done_button">Done Button</string>
+    <!-- Images and Icons -->
+    <string name="home_background">Empty basket</string>
+
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

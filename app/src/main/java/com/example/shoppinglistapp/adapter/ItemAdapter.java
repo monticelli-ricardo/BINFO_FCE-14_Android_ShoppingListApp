@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,8 +28,9 @@ public class ItemAdapter extends ListAdapter<Item, ItemAdapter.ItemViewHolder> {
 
     // Adapter Interface for Item click listener
     public interface OnItemClickListener {
-        void onItemClick(Item item, int position);
-        void onItemLongClick(Item item, int position); // TO-DO later
+        void onItemClick(Item item, int position); // to edit item
+        void onItemLongClick(Item item, int position); // To delete item
+        void onItemBoughtChecked(Item item, boolean isChecked); // To mark as bought
     }
 
     // ItemAdapter Constructor method
@@ -80,12 +82,16 @@ public class ItemAdapter extends ListAdapter<Item, ItemAdapter.ItemViewHolder> {
         // ViewHolder Variables
         private final TextView titleTextView;
         private final TextView descriptionTextView;
+        private final TextView quantityTextView;
+        private final CheckBox boughtCheckBox;
 
         // ViewHolder Constructor, setting Listeners
         public ItemViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.itemTitle);
             descriptionTextView = itemView.findViewById(R.id.itemShortDescription);
+            quantityTextView = itemView.findViewById(R.id.itemQuantity);
+            boughtCheckBox = itemView.findViewById(R.id.itemBought);
 
             // Listener for click event, using lambda expression
             itemView.setOnClickListener(v -> {
@@ -104,12 +110,24 @@ public class ItemAdapter extends ListAdapter<Item, ItemAdapter.ItemViewHolder> {
                 }
                 return true;
             });
+
+            // Listener for checkbox click event, using lambda expression
+            boughtCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Item item = getItem(position);
+                    item.setItemBought(isChecked);
+                    listener.onItemBoughtChecked(item, isChecked);
+                }
+            });
         }
 
         // Method to bind data to the item view
         public void bind(Item item) {
             titleTextView.setText(item.getItemTitle());
             descriptionTextView.setText(item.getItemDescription());
+            quantityTextView.setText(String.valueOf(item.getItemQuantity()));
+            boughtCheckBox.setChecked(item.isItemBought());
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.shoppinglistapp.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,10 +12,21 @@ import android.os.Parcelable;
 public class Item implements Parcelable{
     private String itemTitle;
     private String itemDescription;
+    private int itemQuantity;
+    private boolean itemBought;
     @PrimaryKey(autoGenerate = true)
     private int itemId;
 
     // Getters and Setters
+
+    // Protected setter for Room to use
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+    public int getItemId() {
+        return itemId;
+    }
+
     public String getItemDescription() {
         return itemDescription;
     }
@@ -23,9 +35,6 @@ public class Item implements Parcelable{
         this.itemDescription = itemDescription;
     }
 
-    public int getItemId() {
-        return itemId;
-    }
 
     public String getItemTitle() {
         return itemTitle;
@@ -35,15 +44,37 @@ public class Item implements Parcelable{
         this.itemTitle = itemTitle;
     }
 
+    public int getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity(int itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
+
+    public boolean isItemBought() {
+        return itemBought;
+    }
+
+    public void setItemBought(boolean itemBought) {
+        this.itemBought = itemBought;
+    }
+
     // Constructor
-    public Item(String itemTitle, String itemDescription) {
+    // Default constructor required by Room
+    public Item() {}
+
+    @Ignore
+    public Item(String itemTitle, String itemDescription, int itemQuantity, boolean itemBuy) {
         this.itemTitle = itemTitle;
         this.itemDescription = itemDescription;
+        this.itemQuantity = itemQuantity;
+        this.itemBought = itemBought;
     }
 
     // Public static method to create new Item instances
-    public static Item createItem(String title, String description) {
-        return new Item(title, description);
+    public static Item createItem(String title, String description, int itemQuantity, boolean itemBuy) {
+        return new Item(title, description, itemQuantity, itemBuy);
     }
 
     // Parcelable implementation for efficient data transfer among components.
@@ -57,12 +88,16 @@ public class Item implements Parcelable{
         dest.writeString(itemTitle);
         dest.writeString(itemDescription);
         dest.writeInt(itemId);
+        dest.writeInt(itemQuantity);
+        dest.writeByte((byte) (itemBought ? 1 : 0));
     }
 
     protected Item(Parcel in) {
         itemTitle = in.readString();
         itemDescription = in.readString();
         itemId = in.readInt();
+        itemBought = in.readByte() != 0;
+        itemQuantity = in.readInt();
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {

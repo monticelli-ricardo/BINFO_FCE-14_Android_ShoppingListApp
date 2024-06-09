@@ -50,8 +50,7 @@ public class AddItemFragment extends Fragment implements MenuProvider {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentAddItemBinding.inflate(inflater, container, false);
         return binding.getRoot(); // Return the root view of the binding
@@ -70,7 +69,7 @@ public class AddItemFragment extends Fragment implements MenuProvider {
         viewModel = new ViewModelProvider(this, factory).get(ItemViewModel.class);
 
         // Floating action button to add new item
-        binding.editItemButton.setOnClickListener(new View.OnClickListener() {
+        binding.doneItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Save item details and return to home page
@@ -106,28 +105,26 @@ public class AddItemFragment extends Fragment implements MenuProvider {
     }
 
     // Custom Method to save Item details
-    private void saveItemDetails(View view){
-        // Bind item data (title, description, etc.)
+    private void saveItemDetails(View view) {
         String itemTitle = binding.addItemTitle.getText().toString().trim();
         String itemDesc = binding.addItemDesc.getText().toString().trim();
+        int itemQuantity = Integer.parseInt(binding.addItemQuantity.getText().toString().trim());
+        boolean itemBought = false;
 
         // Validate user's input is complete
-        if(!itemTitle.isEmpty() && !itemDesc.isEmpty()){
-            // Create a new item
-            Item newItem = Item.createItem(itemTitle, itemDesc);
+        if (!itemTitle.isEmpty() && !itemDesc.isEmpty()) {
+            // Create a new item with the recently input information
+            Item newItem = Item.createItem(itemTitle, itemDesc, itemQuantity, itemBought);
             // Add new item into the Database via the ViewModel
             viewModel.insertItem(newItem);
 
-            // Notify the user about the insert
-            Toast.makeText(addItemView.getContext(), "Item saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Item saved", Toast.LENGTH_SHORT).show();
             // Return to Home Fragment
             NavController navController = Navigation.findNavController(view);
             navController.navigate(R.id.action_addItemFragment_to_homeFragment);
         } else {
-            //
-            Toast.makeText(addItemView.getContext(), "Please complete all fields.", Toast.LENGTH_SHORT).show();
+            // Notify user that creation is not possible until all fields fill-in
+            Toast.makeText(requireContext(), "Please complete all fields.", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 }

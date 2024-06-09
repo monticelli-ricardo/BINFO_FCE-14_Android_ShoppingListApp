@@ -33,7 +33,6 @@ public class EditItemFragment extends Fragment implements MenuProvider {
     // Variables
     private ItemViewModel viewModel;
     private Item currentItem;
-    // Variable Arguments for EditItem
 
     // Set up binding
     private FragmentEditItemBinding binding;
@@ -75,10 +74,11 @@ public class EditItemFragment extends Fragment implements MenuProvider {
         ItemViewModelFactory factory = new ItemViewModelFactory(requireActivity().getApplication());
         viewModel = new ViewModelProvider(this, factory).get(ItemViewModel.class);
 
-        // NotNull check and set current Item data into View components
+        // NotNull check and bind current Item data into Edit View components
         if (currentItem != null) {
             binding.editItemTitle.setText(currentItem.getItemTitle());
             binding.editItemDesc.setText(currentItem.getItemDescription());
+            binding.editItemQuantity.setText(String.valueOf(currentItem.getItemQuantity())); // make sure to pass int to string
         }
 
         // Floating action button to add new item
@@ -126,6 +126,7 @@ public class EditItemFragment extends Fragment implements MenuProvider {
         // Bind item data (title, description, etc.)
         String itemTitle = binding.editItemTitle.getText().toString().trim();
         String itemDesc = binding.editItemDesc.getText().toString().trim();
+        String itemQuantity = binding.editItemQuantity.getText().toString().trim();
 
         // Validate user's input is complete
         if(!itemTitle.isEmpty() && !itemDesc.isEmpty()){
@@ -133,6 +134,7 @@ public class EditItemFragment extends Fragment implements MenuProvider {
             // set item new details
             currentItem.setItemTitle(itemTitle);
             currentItem.setItemDescription(itemDesc);
+            currentItem.setItemQuantity(Integer.parseInt(itemQuantity));
 
             // Update item data in the Database via the ViewModel
             viewModel.updateItem(currentItem);
