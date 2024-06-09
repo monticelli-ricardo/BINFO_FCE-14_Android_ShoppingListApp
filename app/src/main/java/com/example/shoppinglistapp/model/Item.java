@@ -65,7 +65,7 @@ public class Item implements Parcelable{
     public Item() {}
 
     @Ignore
-    public Item(String itemTitle, String itemDescription, int itemQuantity, boolean itemBuy) {
+    public Item(String itemTitle, String itemDescription, int itemQuantity, boolean itemBought) {
         this.itemTitle = itemTitle;
         this.itemDescription = itemDescription;
         this.itemQuantity = itemQuantity;
@@ -73,8 +73,8 @@ public class Item implements Parcelable{
     }
 
     // Public static method to create new Item instances
-    public static Item createItem(String title, String description, int itemQuantity, boolean itemBuy) {
-        return new Item(title, description, itemQuantity, itemBuy);
+    public static Item createItem(String title, String description, int itemQuantity, boolean itemBought) {
+        return new Item(title, description, itemQuantity, itemBought);
     }
 
     // Parcelable implementation for efficient data transfer among components.
