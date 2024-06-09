@@ -54,14 +54,24 @@ The application follows the design principles of the MVMM (Model-View-ModelView)
 ### Functionality
 
 1. **Main View**:
-  - Displays the shopping list using ListView.
-  - Provides an "Add" button to add new items.
+     - Displays the shopping list using RecyclerView, it is scrollable if there are too many items.
+     - Displays a `Shopping Basket` if the shopping list is empty.
+     - Provides an `Add` Floating button to navigate to the `Add Item View` where users can add new items.
+     - Captures click events on the selected and existing item.
+        - Click events to navigate to the `Item Detail View` to edit item information.
+        - Long-click events to `Delete` the selected item.
+     - Provides a menu bar where:
+        - The `Search` button to list item(s) if a specific keyword is similar to their title or description. (This does not work yet.)
 2. **Add Item View**:
-  - Allows users to input item details (title, description).
-  - Provides an "Add" button to save the new item.
+     - Allows users to input item details (title, description, etc.)
+     - Provides a `Done` Floating button to save the new item.
+     - Provides a menu bar where:
+        - The `Home` button can be used to return to the main view.
 3. **Item Detail View**:
-  - Displays item details and allows users to edit them.
-  - Provides an "Update" button to save changes.
-  - Allows users to navigate back to the main view.
+     - Displays item details and allows users to edit them.
+     - Provides a `Done` Floating button to save changes after editing.
+     - Provides a menu bar where:
+        - The `Home` button can be used to return to the main view.
+        - The `Garbage` button to delete the current item in editing.
 
 
