@@ -17,7 +17,14 @@ public class ItemViewModel extends AndroidViewModel {
     private final ItemRepository itemRepository;
     private final LiveData<List<Item>> itemList;
 
-    // Constructor
+    // Constructor that initializes the repository within the ViewModel
+    public ItemViewModel(@NonNull Application application) {
+        super(application);
+        itemRepository = ItemRepository.getInstance(application);
+        itemList = itemRepository.getAllItems();
+    }
+
+    // Constructor for dependency injection/testing
     public ItemViewModel(@NonNull Application application, ItemRepository itemRepository) {
         super(application);
         this.itemRepository = itemRepository;
