@@ -129,7 +129,7 @@ public class EditItemFragment extends Fragment implements MenuProvider {
         String itemQuantity = binding.editItemQuantity.getText().toString().trim();
 
         // Validate user's input is complete
-        if(!itemTitle.isEmpty() && !itemDesc.isEmpty() && !itemQuantity.isEmpty()){
+        if(!itemTitle.isEmpty()){
 
             // set item new details
             currentItem.setItemTitle(itemTitle);
@@ -148,7 +148,7 @@ public class EditItemFragment extends Fragment implements MenuProvider {
 
         } else {
             //
-            Toast.makeText(getContext(), "Please complete all fields.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Item title is a mandatory field. Please fill in.", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -121,7 +121,7 @@ public class AddItemFragment extends Fragment implements MenuProvider {
 
 
         // Validate user's input is complete
-        if (!itemTitle.isEmpty() && !itemDesc.isEmpty() && !itemQuantityString.isEmpty()) {
+        if (!itemTitle.isEmpty()) {
             // Create a new item with the recently input information
             Item newItem = Item.createItem(itemTitle, itemDesc, itemQuantity, itemBought);
             // Add new item into the Database via the ViewModel
@@ -133,7 +133,7 @@ public class AddItemFragment extends Fragment implements MenuProvider {
             navController.navigate(R.id.action_addItemFragment_to_homeFragment);
         } else {
             // Notify user that creation is not possible until all fields fill-in
-            Toast.makeText(requireContext(), "Please complete all fields.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Item title is a mandatory field. Please fill in.", Toast.LENGTH_SHORT).show();
         }
     }
 }
