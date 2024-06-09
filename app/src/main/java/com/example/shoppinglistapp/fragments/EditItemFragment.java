@@ -129,7 +129,7 @@ public class EditItemFragment extends Fragment implements MenuProvider {
         String itemQuantity = binding.editItemQuantity.getText().toString().trim();
 
         // Validate user's input is complete
-        if(!itemTitle.isEmpty() && !itemDesc.isEmpty()){
+        if(!itemTitle.isEmpty() && !itemDesc.isEmpty() && !itemQuantity.isEmpty()){
 
             // set item new details
             currentItem.setItemTitle(itemTitle);
@@ -140,7 +140,7 @@ public class EditItemFragment extends Fragment implements MenuProvider {
             viewModel.updateItem(currentItem);
 
             // Notify the user about the insert
-            Toast.makeText(getContext(), "Item updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),itemTitle + " is updated.", Toast.LENGTH_SHORT).show();
 
             // Return to Home Fragment
             NavController navController = Navigation.findNavController(view);

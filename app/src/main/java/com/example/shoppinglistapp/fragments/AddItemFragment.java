@@ -108,17 +108,26 @@ public class AddItemFragment extends Fragment implements MenuProvider {
     private void saveItemDetails(View view) {
         String itemTitle = binding.addItemTitle.getText().toString().trim();
         String itemDesc = binding.addItemDesc.getText().toString().trim();
-        int itemQuantity = Integer.parseInt(binding.addItemQuantity.getText().toString().trim());
+        String itemQuantityString = binding.addItemQuantity.getText().toString().trim();
         boolean itemBought = false;
 
+        int itemQuantity;
+        try {
+            itemQuantity = Integer.parseInt(itemQuantityString);
+        } catch (NumberFormatException e) {
+            Toast.makeText(getContext(), "Please enter a valid number for the item quantity.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
         // Validate user's input is complete
-        if (!itemTitle.isEmpty() && !itemDesc.isEmpty()) {
+        if (!itemTitle.isEmpty() && !itemDesc.isEmpty() && !itemQuantityString.isEmpty()) {
             // Create a new item with the recently input information
             Item newItem = Item.createItem(itemTitle, itemDesc, itemQuantity, itemBought);
             // Add new item into the Database via the ViewModel
             viewModel.insertItem(newItem);
 
-            Toast.makeText(requireContext(), "Item saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), itemTitle + " is saved.", Toast.LENGTH_SHORT).show();
             // Return to Home Fragment
             NavController navController = Navigation.findNavController(view);
             navController.navigate(R.id.action_addItemFragment_to_homeFragment);
