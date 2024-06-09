@@ -64,6 +64,7 @@ The application follows the design principles of the MVMM (Model-View-ModelView)
 
 
 ### Functionality
+_NOTE: Once all information is added or edit, the keyboard must be minimized to access the action button `Done`._
 
 1. **Main View**:
      - Displays the shopping list using RecyclerView, it is scrollable if there are too many items.
@@ -73,17 +74,25 @@ The application follows the design principles of the MVMM (Model-View-ModelView)
         - Click events to navigate to the `Item Detail View` to edit item information.
         - Long-click events to `Delete` the selected item.
      - Provides a menu bar where:
-        - The `Search` button to list item(s) if a specific keyword is similar to their title or description. (This does not work yet.)
+        - The `Search` button to list item(s) if a specific keyword is similar to their title or description (_This does not work yet_).
+
 2. **Add Item View**:
      - Allows users to input item details (title, description, etc.)
-     - Provides a `Done` Floating button to save the new item.
+     - Provides a `Done` Floating button to save the new item, as long as Item title is not empty.
      - Provides a menu bar where:
         - The `Home` button can be used to return to the main view.
+
 3. **Item Detail View**:
      - Displays item details and allows users to edit them.
-     - Provides a `Done` Floating button to save changes after editing.
+     - Provides a `Done` Floating button to save changes after editing, as long as Item title is not empty.
      - Provides a menu bar where:
         - The `Home` button can be used to return to the main view.
         - The `Garbage` button to delete the current item in editing.
 
+### Future improvements
+
+1. Fix search item operation.
+2. Swipe item to left/right to delete it instead of long click event.
+3. Set ImeOptions for EditText to minimize the number of user actions while editing or adding new item. 
+4. Change the app to a List of Shopping lists.
 
