@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
     public void onItemBoughtChecked(Item item, boolean isChecked) { // Handle check box event
         viewModel.updateItem(item);
         if (!isChecked) {
-            Toast.makeText(getContext(), "Not enough of " + item.getItemTitle(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Not enough of " + item.getItemTitle() + ".", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getContext(), item.getItemTitle() + " bought.", Toast.LENGTH_SHORT).show();
         }
