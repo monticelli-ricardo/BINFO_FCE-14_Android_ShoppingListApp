@@ -1,14 +1,12 @@
 package com.example.shoppinglistapp.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,7 +69,9 @@ public class ItemAdapter extends ListAdapter<Item, ItemAdapter.ItemViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = getItem(position);
-        holder.bind(item);
+        if (item != null) {
+            holder.bind(item);
+        }
     }
 
     // Class that holds the views for each item and binds the data to these views. It also handles click event(s).
@@ -110,7 +110,6 @@ public class ItemAdapter extends ListAdapter<Item, ItemAdapter.ItemViewHolder> {
         public void bind(Item item) {
             titleTextView.setText(item.getItemTitle());
             descriptionTextView.setText(item.getItemDescription());
-
         }
     }
 }
