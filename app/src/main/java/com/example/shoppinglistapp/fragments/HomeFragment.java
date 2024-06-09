@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
     private ItemViewModel viewModel;
     private FragmentHomeBinding binding;
     private ImageView emptyListImage;
-
+    private static final String TAG = "HomeFragment";
     // Getters
     private FragmentHomeBinding getBinding() {
         if (binding == null) {
@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
                 .setMessage("Do you want to proceed?")
                 .setPositiveButton("Delete", (dialog, which) -> {
                     viewModel.deleteItem(item);
-                    Toast.makeText(getContext(), "Item deleted.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), item.getItemTitle() + " deleted.", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Cancel", null)
                 .create()
@@ -120,7 +120,12 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
     @Override
     public void onItemBoughtChecked(Item item, boolean isChecked) { // Handle check box event
         viewModel.updateItem(item);
-        Toast.makeText(getContext(), "Item bought.", Toast.LENGTH_SHORT).show();
+        if (!isChecked) {
+            Toast.makeText(getContext(), "Not enough of " + item.getItemTitle(), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), item.getItemTitle() + " bought.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     // Menu implementation
@@ -162,16 +167,18 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
 
     @Override
     public boolean onQueryTextSubmit(String newText) {
-        if (newText != null) {
-            searchItem(newText);
+        if (newText != null && !newText.trim().isEmpty()) {
+            Log.d(TAG, "onQueryTextSubmit: " + newText);
+            searchItem(newText.trim());
         }
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (newText != null) {
-            searchItem(newText);
+        if (newText != null && !newText.trim().isEmpty()) {
+            Log.d(TAG, "onQueryTextChange: " + newText);
+            searchItem(newText.trim());
         }
         return true;
     }
@@ -180,7 +187,12 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
 
     // Method to search for an item based on user input string
     private void searchItem(String query) {
-        viewModel.searchItem(query).observe(getViewLifecycleOwner(), items -> itemAdapter.submitList(items));
+        // Wrap query in '%' for SQL LIKE query
+        String searchQuery = "%" + query + "%";
+        viewModel.searchItem(searchQuery).observe(getViewLifecycleOwner(), items -> {
+            Log.d(TAG, "Search results: " + items);
+            itemAdapter.submitList(items);
+        });
     }
 
     // Method to update the UI with the list of items or empty list image
@@ -216,7 +228,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
         // Use the ViewModel to observe the LiveData for the itemList changes
             viewModel.getItemList().observe(getViewLifecycleOwner(), items -> {
                 // For logging
-                Log.d("HomeFragment", "Item list size: " + (items != null ? items.size() : "null"));
+                Log.d(TAG, "Item list size: " + (items != null ? items.size() : "null"));
                 // Submit the list of items to the adapter
                 itemAdapter.submitList(items);
                 // Update the UI based on the items list
