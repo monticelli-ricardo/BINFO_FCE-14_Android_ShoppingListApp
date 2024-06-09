@@ -64,7 +64,7 @@ The application follows the design principles of the MVMM (Model-View-ModelView)
 
 
 ### Functionality
-_NOTE: Once all information is added or edit, the keyboard must be minimized to access the action button `Done`._
+_NOTE: Once all information is added or edited, the keyboard must be minimized to access the action button `Done`._
 
 1. **Main View**:
      - Displays the shopping list using RecyclerView, it is scrollable if there are too many items.
