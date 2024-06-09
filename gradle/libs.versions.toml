@@ -3,15 +3,15 @@ agp = "8.4.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
-appcompat = "1.6.1"
-material = "1.10.0"
-activity = "1.8.0"
+appcompat = "1.7.0"
+material = "1.12.0"
+activity = "1.9.0"
 constraintlayout = "2.1.4"
-lifecycle_version = "2.8.0"
+lifecycle_version = "2.8.1"
 room_version = "2.6.1"
 composePreviewRenderer = "0.0.1-alpha01"
 navigation_version = "2.7.7"
-coroutines_version = "1.7.1"
+coroutines_version = "1.8.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -23,18 +23,17 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 # View Model
-# navigation-safeargs-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navVersion" }
-viewmodel = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-kt", version.ref = "lifecycle_version" }
-# ViewModel utilities for Compose
-viewmodel-compose = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle_version" }
+viewmodel = {group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle_version" }
 # LiveData
-livedata = {group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle_version" }
+livedata = {group = "androidx.lifecycle", name = "lifecycle-livedata", version.ref = "lifecycle_version" }
 # Lifecycles only (without ViewModel or LiveData)
-lifecycle = {group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle_version" }
+lifecycle = {group = "androidx.lifecycle", name = "lifecycle-runtime", version.ref = "lifecycle_version" }
 # Lifecycle utilities for Compose
 lifecycle-compose = {group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle_version" }
 # Annotation processor
 lifecycle-compiler = {group = "androidx.lifecycle", name = "lifecycle-compiler", version.ref = "lifecycle_version" }
+# Saved state module for ViewModel
+viewmodel-savedstate = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "lifecycle_version" }
 
 # ROOM Database
 room = {group = "androidx.room", name = "room-runtime", version.ref = "room_version"}
@@ -47,7 +46,7 @@ navigation-fragment = {group = "androidx.navigation", name = "navigation-fragmen
 navigation-ui = {group = "androidx.navigation", name = "navigation-ui", version.ref = "navigation_version"}
 # Kotlin Coroutines
 coroutines = {group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines_version"}
-room-ktx = {group = "androidx.navigation", name = "room-ktx", version.ref = "room_version"}
+room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room_version"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
