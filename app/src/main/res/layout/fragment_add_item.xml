@@ -31,6 +31,7 @@
             android:autofillHints="itemHint"
             android:background="@drawable/item_border"
             android:hint="@string/itemHint"
+            android:textColorHint="@color/accent"
             android:inputType="text"
             android:maxLines="1"
             android:padding="12dp"
@@ -77,9 +78,10 @@
             android:background="@drawable/item_border"
             android:gravity="top"
             android:hint="@string/itemLDesc"
-            android:inputType="textMultiLine"
+            android:inputType="text"
             android:padding="12dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:imeOptions="actionDone"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/doneItemButton"

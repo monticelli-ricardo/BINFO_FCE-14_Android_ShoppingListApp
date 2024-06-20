@@ -34,7 +34,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:padding="12dp"
-            android:textColorHint="#EF6C00"
+            android:textColorHint="@color/accent"
             android:textSize="20sp" />
 
         <EditText
@@ -80,7 +80,8 @@
             android:background="@drawable/item_border"
             android:layout_below="@id/editItemQuantity"
             android:layout_marginTop="12dp"
-            android:inputType="textMultiLine"/>
+            android:inputType="text"
+            android:imeOptions="actionDone"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/saveEditButton"
