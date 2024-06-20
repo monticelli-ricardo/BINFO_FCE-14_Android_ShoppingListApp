@@ -1,5 +1,6 @@
 package com.example.shoppinglistapp.fragments;
 
+
 import android.app.AlertDialog;
 import android.os.Bundle;
 
@@ -56,7 +57,7 @@ public class EditItemFragment extends Fragment implements MenuProvider {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentEditItemBinding.inflate(inflater, container, false);
