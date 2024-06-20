@@ -38,7 +38,7 @@
             android:id="@+id/emptyListImage"
             android:contentDescription="@string/home_background"
             android:visibility="gone"
-            android:src="@drawable/baseline_shopping_basket_24"/>
+            android:src="@drawable/home_background"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
