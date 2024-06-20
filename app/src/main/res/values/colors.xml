@@ -4,7 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#0A6847</color>
     <color name="secondary">#7ABA78</color>
-    <color name="accent">#F3CA52</color>
+    <color name="accent">#FF8C00</color>
     <color name="neutral">#F6E9B2</color>
-    <color  name="orange">#FF8C00</color>
 </resources>
