@@ -39,17 +39,34 @@
 
         <EditText
             android:id="@+id/editItemQuantity"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="@string/edit_item_quantity"
-            android:autofillHints="@string/edit_item_quantity"
-            android:inputType="number"
-            android:gravity="top"
-            android:padding="12dp"
-            android:textSize="18sp"
-            android:background="@drawable/item_border"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/editItemTitle"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="12dp"
+            android:autofillHints="@string/edit_item_quantity"
+            android:background="@drawable/item_border"
+            android:gravity="top"
+            android:hint="@string/edit_item_quantity"
+            android:inputType="number"
+            android:padding="12dp"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/spinnerItemUnit"
+            android:layout_width="172dp"
+            android:layout_height="60dp"
+            android:layout_above="@+id/editItemDesc"
+            android:layout_below="@+id/editItemTitle"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="2dp"
+            android:layout_toEndOf="@+id/editItemQuantity"
+            android:autofillHints="@string/edit_item_unit"
+            android:background="@drawable/item_border"
+            android:gravity="top"
+            android:hint="@string/edit_item_unit"
+            android:padding="12dp"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editItemDesc"

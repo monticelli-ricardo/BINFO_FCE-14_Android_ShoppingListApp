@@ -26,43 +26,60 @@
             android:id="@+id/addItemTitle"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_below="@id/addItemMenuHeading"
+            android:layout_marginTop="16dp"
             android:autofillHints="itemHint"
+            android:background="@drawable/item_border"
             android:hint="@string/itemHint"
             android:inputType="text"
+            android:maxLines="1"
             android:padding="12dp"
-            android:textSize="20sp"
-            android:layout_below="@id/addItemMenuHeading"
-            android:background="@drawable/item_border"
-            android:layout_marginTop="16dp"
-            android:maxLines="1" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/addItemQuantity"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="@string/add_item_quantity"
-            android:autofillHints="@string/add_item_quantity"
-            android:inputType="number"
-            android:gravity="top"
-            android:padding="12dp"
-            android:textSize="18sp"
-            android:background="@drawable/item_border"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/addItemTitle"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="12dp"
+            android:autofillHints="@string/add_item_quantity"
+            android:background="@drawable/item_border"
+            android:gravity="top"
+            android:hint="@string/add_item_quantity"
+            android:inputType="number"
+            android:padding="12dp"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/spinnerItemUnit"
+            android:layout_width="172dp"
+            android:layout_height="60dp"
+            android:layout_above="@+id/addItemDesc"
+            android:layout_below="@+id/addItemTitle"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="2dp"
+            android:layout_toEndOf="@+id/addItemQuantity"
+            android:autofillHints="@string/add_item_unit"
+            android:background="@drawable/item_border"
+            android:gravity="top"
+            android:hint="@string/add_item_unit"
+            android:padding="12dp"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/addItemDesc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/addItemQuantity"
+            android:layout_marginTop="13dp"
             android:autofillHints="@string/add_item_description"
+            android:background="@drawable/item_border"
+            android:gravity="top"
             android:hint="@string/itemLDesc"
             android:inputType="textMultiLine"
-            android:gravity="top"
             android:padding="12dp"
-            android:textSize="18sp"
-            android:background="@drawable/item_border"
-            android:layout_below="@id/addItemQuantity"
-            android:layout_marginTop="12dp" />
+            android:textSize="18sp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/doneItemButton"

@@ -85,6 +85,7 @@ public class ItemAdapter extends ListAdapter<Item, ItemAdapter.ItemViewHolder> {
         private final TextView descriptionTextView;
         private final TextView quantityTextView;
         private final CheckBox boughtCheckBox;
+        private final TextView unitTextView;
 
         // ViewHolder Constructor, setting Listeners
         public ItemViewHolder(@NonNull View itemView, OnItemClickListener listener) {
@@ -93,6 +94,7 @@ public class ItemAdapter extends ListAdapter<Item, ItemAdapter.ItemViewHolder> {
             descriptionTextView = itemView.findViewById(R.id.itemShortDescription);
             quantityTextView = itemView.findViewById(R.id.itemQuantity);
             boughtCheckBox = itemView.findViewById(R.id.itemBought);
+            unitTextView = itemView.findViewById(R.id.itemUnit);
 
             // Listener for click event, using lambda expression
             itemView.setOnClickListener(v -> {
@@ -129,6 +131,7 @@ public class ItemAdapter extends ListAdapter<Item, ItemAdapter.ItemViewHolder> {
             descriptionTextView.setText(item.getItemDescription());
             quantityTextView.setText(String.valueOf(item.getItemQuantity()));
             boughtCheckBox.setChecked(item.isItemBought());
+            unitTextView.setText(item.getItemUnit());
         }
     }
 }

@@ -8,6 +8,7 @@
     <string name="itemLDesc">Enter item description.</string>
     <string name="itemQuantity">#</string>
     <string name="itemBought">Item bought.</string>
+    <string name="itemUnit">unit</string>
     <string name="itemHint">Enter item name.</string>
     <!-- Home -->
     <string name="home_menu">Search</string>
@@ -18,12 +19,14 @@
     <string name="add_item_name">Add item name.</string>
     <string name="add_item_description">Add item description.</string>
     <string name="add_item_quantity">Enter item quantity.</string>
+    <string name="add_item_unit">Select unit.</string>
     <!-- Edit Item Menu -->
     <string name="edit_menu">Edit</string>
     <string name="edit_menu_heading">Edit item.</string>
     <string name="edit_item_name">Edit item name.</string>
     <string name="edit_item_description">Edit item description.</string>
     <string name="edit_item_quantity">Edit item quantity.</string>
+    <string name="edit_item_unit">Edit unit.</string>
     <!-- Buttons -->
     <string name="add_button">Add Button</string>
     <string name="delete_button">Delete Button</string>
@@ -32,7 +35,19 @@
     <string name="home_button">Home Button</string>
     <string name="done_button">Done Button</string>
     <!-- Images and Icons -->
-    <string name="home_background">Empty basket</string>
+    <string name="home_background">Empty bag</string>
+    <!--Items Unit array-->
+    <string-array name="units_array">
+        <item>Cup</item>
+        <item>gr</item>
+        <item>Kg</item>
+        <item>Litre</item>
+        <item>ml</item>
+        <item>Piece</item>
+        <item>Bottle</item>
+        <item>x</item>
+    </string-array>
+
 
 
 

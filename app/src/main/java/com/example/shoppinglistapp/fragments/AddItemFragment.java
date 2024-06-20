@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.shoppinglistapp.R;
@@ -68,6 +69,14 @@ public class AddItemFragment extends Fragment implements MenuProvider {
         ItemViewModelFactory factory = new ItemViewModelFactory(requireActivity().getApplication());
         viewModel = new ViewModelProvider(this, factory).get(ItemViewModel.class);
 
+        // Set up the spinner with units array from resources
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.units_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerItemUnit.setAdapter(adapter);
+        binding.spinnerItemUnit.setSelection(adapter.getPosition("x"));
+
+
         // Floating action button to add new item
         binding.doneItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +118,7 @@ public class AddItemFragment extends Fragment implements MenuProvider {
         String itemTitle = binding.addItemTitle.getText().toString().trim();
         String itemDesc = binding.addItemDesc.getText().toString().trim();
         String itemQuantityString = binding.addItemQuantity.getText().toString().trim();
+        String itemUnit = binding.spinnerItemUnit.getSelectedItem().toString().trim();
         boolean itemBought = false;
 
         int itemQuantity;
@@ -123,7 +133,7 @@ public class AddItemFragment extends Fragment implements MenuProvider {
         // Validate user's input is complete
         if (!itemTitle.isEmpty()) {
             // Create a new item with the recently input information
-            Item newItem = Item.createItem(itemTitle, itemDesc, itemQuantity, itemBought);
+            Item newItem = Item.createItem(itemTitle, itemDesc, itemQuantity, itemBought, itemUnit);
             // Add new item into the Database via the ViewModel
             viewModel.insertItem(newItem);
 

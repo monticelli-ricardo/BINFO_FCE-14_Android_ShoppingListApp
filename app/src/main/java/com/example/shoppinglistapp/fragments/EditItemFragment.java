@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.shoppinglistapp.R;
@@ -74,11 +75,18 @@ public class EditItemFragment extends Fragment implements MenuProvider {
         ItemViewModelFactory factory = new ItemViewModelFactory(requireActivity().getApplication());
         viewModel = new ViewModelProvider(this, factory).get(ItemViewModel.class);
 
+        // Set up the spinner with units array from resources
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.units_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerItemUnit.setAdapter(adapter);
+
         // NotNull check and bind current Item data into Edit View components
         if (currentItem != null) {
             binding.editItemTitle.setText(currentItem.getItemTitle());
             binding.editItemDesc.setText(currentItem.getItemDescription());
             binding.editItemQuantity.setText(String.valueOf(currentItem.getItemQuantity())); // make sure to pass int to string
+            binding.spinnerItemUnit.setSelection(adapter.getPosition(currentItem.getItemUnit()));
         }
 
         // Floating action button to add new item
@@ -127,6 +135,7 @@ public class EditItemFragment extends Fragment implements MenuProvider {
         String itemTitle = binding.editItemTitle.getText().toString().trim();
         String itemDesc = binding.editItemDesc.getText().toString().trim();
         String itemQuantity = binding.editItemQuantity.getText().toString().trim();
+        String itemUnit = binding.spinnerItemUnit.getSelectedItem().toString().trim();
 
         // Validate user's input is complete
         if(!itemTitle.isEmpty()){
@@ -135,6 +144,7 @@ public class EditItemFragment extends Fragment implements MenuProvider {
             currentItem.setItemTitle(itemTitle);
             currentItem.setItemDescription(itemDesc);
             currentItem.setItemQuantity(Integer.parseInt(itemQuantity));
+            currentItem.setItemUnit(itemUnit);
 
             // Update item data in the Database via the ViewModel
             viewModel.updateItem(currentItem);
