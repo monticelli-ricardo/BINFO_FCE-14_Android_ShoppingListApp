@@ -24,7 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.shoppinglistapp.R;
@@ -142,15 +142,18 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
         menu.clear();
         // Inflate new menu
         menuInflater.inflate(R.menu.home_menu, menu);
-
-        // Initialize the searchView from the menu item
+        // Initialize the SearchView
         MenuItem menuSearch = menu.findItem(R.id.searchMenu);
-        View searchViewActionView = menuSearch.getActionView();
-        // Null Check for SearchView
-        if (searchViewActionView instanceof SearchView) {
-            SearchView searchView = (SearchView) searchViewActionView;
-            searchView.setSubmitButtonEnabled(false); // Disable submit button
-            searchView.setOnQueryTextListener(HomeFragment.this); // Set OnQueryTextListener to handle search queries
+        if (menuSearch != null) {
+            SearchView searchView = (SearchView) menuSearch.getActionView();
+            if (searchView != null) {
+                searchView.setSubmitButtonEnabled(true);
+                searchView.setOnQueryTextListener(this); // Set OnQueryTextListener to handle search queries
+            } else {
+                Log.d(TAG, "SearchView not found in the menu item");
+            }
+        } else {
+            Log.d(TAG, "MenuItem with ID R.id.searchMenu not found");
         }
     }
 
@@ -167,8 +170,8 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
 
     @Override
     public boolean onQueryTextSubmit(String newText) {
+        Log.d(TAG, "onQueryTextSubmit called with: " + newText);
         if (newText != null && !newText.trim().isEmpty()) {
-            Log.d(TAG, "onQueryTextSubmit: " + newText);
             searchItem(newText.trim());
         }
         return true;
@@ -176,9 +179,12 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        Log.d(TAG, "onQueryTextChange called with: " + newText);
         if (newText != null && !newText.trim().isEmpty()) {
-            Log.d(TAG, "onQueryTextChange: " + newText);
             searchItem(newText.trim());
+        } else {
+            // If the search query is empty, fetch and display all items
+            listItems();
         }
         return true;
     }
@@ -190,8 +196,25 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
         // Wrap query in '%' for SQL LIKE query
         String searchQuery = "%" + query + "%";
         viewModel.searchItem(searchQuery).observe(getViewLifecycleOwner(), items -> {
+            // For logging
             Log.d(TAG, "Search results: " + items);
+            // Submit the sub-list of items to the adapter
             itemAdapter.submitList(items);
+            // Update the UI based on the searched items list
+            updateHomeUI(items);
+        });
+    }
+
+    // Method to use the ViewModel to observe the LiveData for the itemList changes
+    private void listItems() {
+        Log.d(TAG, "Listing all items called");
+        viewModel.getItemList().observe(getViewLifecycleOwner(), items -> {
+            // For logging
+            Log.d(TAG, "Item list size: " + (items != null ? items.size() : "null"));
+            // Submit the list of items to the adapter
+            itemAdapter.submitList(items);
+            // Update the UI based on the items list
+            updateHomeUI(items);
         });
     }
 
@@ -225,15 +248,9 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemClickLis
             ItemViewModelFactory factory = new ItemViewModelFactory(application);
             // Initialize the ViewModel with the factory
             viewModel = new ViewModelProvider(this, factory).get(ItemViewModel.class);
-        // Use the ViewModel to observe the LiveData for the itemList changes
-            viewModel.getItemList().observe(getViewLifecycleOwner(), items -> {
-                // For logging
-                Log.d(TAG, "Item list size: " + (items != null ? items.size() : "null"));
-                // Submit the list of items to the adapter
-                itemAdapter.submitList(items);
-                // Update the UI based on the items list
-                updateHomeUI(items);
-            });
+        // Use the ViewModel to observe the LiveData for the itemList changes and display them
+        listItems();
+
     }
 
 }
