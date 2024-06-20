@@ -8,7 +8,7 @@
     <string name="itemLDesc">Enter item description.</string>
     <string name="itemQuantity">#</string>
     <string name="itemBought">Item bought.</string>
-    <string name="itemUnit">unit</string>
+    <string name="itemUnit">x</string>
     <string name="itemHint">Enter item name.</string>
     <!-- Home -->
     <string name="home_menu">Search</string>
@@ -38,20 +38,15 @@
     <string name="home_background">Empty bag</string>
     <!--Items Unit array-->
     <string-array name="units_array">
-        <item>Cup</item>
+        <item>x</item>
         <item>gr</item>
         <item>Kg</item>
-        <item>Litre</item>
+        <item>Liter</item>
         <item>ml</item>
-        <item>Piece</item>
-        <item>Bottle</item>
-        <item>x</item>
+        <item>Piece(s)</item>
+        <item>Bottle(s)</item>
+        <item>Cup(s)</item>
+        <item>Bag(s)</item>
     </string-array>
 
-
-
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
